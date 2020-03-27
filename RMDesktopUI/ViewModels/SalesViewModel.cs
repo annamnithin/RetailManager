@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using RMDesktopUI.Library.Api;
+using RMDesktopUI.Library.Helper;
 using RMDesktopUI.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,14 @@ namespace RMDesktopUI.ViewModels
     public class SalesViewModel: Screen
     {
 		IProductEndPoint _productEndPoint;
+		IConfigHelper _configHelper;
 
 		private BindingList<ProductModel> _products;
 
-		public SalesViewModel(IProductEndPoint productEndPoint)
+		public SalesViewModel(IProductEndPoint productEndPoint, IConfigHelper configHelper)
 		{
 			_productEndPoint = productEndPoint;
+			_configHelper = configHelper;
 			
 		}
 
@@ -70,30 +73,51 @@ namespace RMDesktopUI.ViewModels
 		{
 			get
 			{
-				decimal subTotal = 0;
-
-				foreach(var item in Cart)
-				{
-					subTotal += (item.Product.RetailPrice * item.QuantityInCart);
-				}
-
-				return subTotal.ToString("C");
+				return CaluclateSubTotal().ToString("C");
 			}
+		}
+
+		public decimal CaluclateSubTotal()
+		{
+			decimal subTotal = 0;
+
+			foreach (var item in Cart)
+			{
+				subTotal += (item.Product.RetailPrice * item.QuantityInCart);
+			}
+
+			return subTotal;
 		}
 
 		public string Tax
 		{
 			get
 			{
-				return "$0.00";
+				return CaluclateTax().ToString("C");
 			}
 		}
 
+		private decimal CaluclateTax()
+		{
+			decimal taxAmount = 0;
+			decimal _taxRate = _configHelper.GetTaxRate()/100 ;
+
+			foreach (var item in Cart)
+			{
+				if (item.Product.IsTaxable)
+				{
+					taxAmount += (item.Product.RetailPrice * item.QuantityInCart * _taxRate);
+				}
+
+			}
+			return taxAmount;
+		}
 		public string Total
 		{
 			get
 			{
-				return "$0.00";
+				decimal total =  CaluclateSubTotal() + CaluclateTax() ;
+				return total.ToString("C");
 			}
 		}
 
@@ -144,6 +168,8 @@ namespace RMDesktopUI.ViewModels
 			SelectedProduct.QuantityInStock -= ItemQuantity;
 			ItemQuantity = 1;
 			NotifyOfPropertyChange(() => SubTotal);
+			NotifyOfPropertyChange(() => Tax);
+			NotifyOfPropertyChange(() => Total);
 
 		}
 
