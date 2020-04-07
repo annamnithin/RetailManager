@@ -10,5 +10,7 @@ namespace RMDesktopUI.Library
         string Id { get; set; }
         string LastName { get; set; }
         string Token { get; set; }
+
+        void LogOfUser();
     }
 }
