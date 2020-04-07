@@ -11,6 +11,6 @@ namespace RMDesktopUI.Library
         string LastName { get; set; }
         string Token { get; set; }
 
-        void LogOfUser();
+        void ResetUserModel();
     }
 }
