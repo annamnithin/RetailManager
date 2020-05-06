@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using RetailManagerDataManager.Models;
 using RMDataManager.Library.DataAccess;
 using RMDataManager.Library.Models;
 using System;
@@ -19,5 +21,7 @@ namespace RetailManagerDataManager.Controllers
 
             return data.GetProducts();
         }
+
+       
     }
 }

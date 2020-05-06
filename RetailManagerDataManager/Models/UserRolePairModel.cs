@@ -5,8 +5,9 @@ using System.Web;
 
 namespace RetailManagerDataManager.Models
 {
-    public class SaleModel
+    public class UserRolePairModel
     {
-        public List<SaleDetailModel> SaleDetails { get; set; } 
+        public string UserId { get; set; }
+        public string RoleName { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace RMDesktopUI.ViewModels
             NotifyOfPropertyChange(() => Message);
         }
 
-        private void Close()
+        public void Close()
         {
             TryClose();
         }

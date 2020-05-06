@@ -28,7 +28,7 @@ namespace RMDesktopUI.ViewModels
 		public SalesViewModel(IProductEndPoint productEndPoint, IConfigHelper configHelper,
 			ISaleEndpoint saleEndpoint, IMapper mapper, StatusInfoViewModel status, IWindowManager window)
 		{
-			_productEndPoint = productEndPoint;
+			_productEndPoint = productEndPoint; 
 			_configHelper = configHelper;
 			_saleEndpoint = saleEndpoint;
 			_mapper = mapper;
